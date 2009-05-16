@@ -6,20 +6,27 @@ module Kanban
   def self.included(base) 
     base.extend Kanban::ClassMethods
     
-    base.aasm_column :state
-    
+    base.class_eval do
+      include AASM
+      
+      # if we are using ActiveRecord then we need to set the column
+      hierarchy = ancestors.map {|klass| klass.to_s}      
+      if hierarchy.include?("ActiveRecord::Base")
+        aasm_column :state    
+      end
+    end
   end
 
   module ClassMethods
-    def initial_queue(queue)
+    def kanban_initial_queue(queue)
       aasm_initial_state queue
     end
 
-    def queue(state_name)
+    def kanban_queue(state_name)
       aasm_state state_name
     end
 
-    def transition(event_name, transition_definitions, &blk)
+    def kanban_transition(event_name, transition_definitions, &blk)
       aasm_event event_name do
         transitions transition_definitions.merge(:on_transition => blk)
       end

@@ -23,15 +23,14 @@ describe "Kanban Cards" do
     before do
       
       class Card < ActiveRecord::Base
-        include AASM
         include Kanban
         
-        initial_queue :a        
+        kanban_initial_queue :a        
 
-        queue :a
-        queue :b
-        transition :a_to_b, :from => :a, :to => :b
-        transition :b_to_a, :from => :b, :to => :a 
+        kanban_queue :a
+        kanban_queue :b
+        kanban_transition :a_to_b, :from => :a, :to => :b
+        kanban_transition :b_to_a, :from => :b, :to => :a 
       end
       
       @card = Card.create! 
@@ -68,19 +67,18 @@ describe "Kanban Cards" do
     before do
       
       class Card < ActiveRecord::Base
-        include AASM
         include Kanban
 
-        initial_queue :a
+        kanban_initial_queue :a
 
         attr_accessor :proc_run
 
-        queue :a
-        queue :b
-        transition :a_to_b, :from => :a, :to => :b do |card, user| 
+        kanban_queue :a
+        kanban_queue :b
+        kanban_transition :a_to_b, :from => :a, :to => :b do |card, user| 
           card.proc_run = true 
         end
-        transition :b_to_a, :from => :b, :to => :a 
+        kanban_transition :b_to_a, :from => :b, :to => :a 
       end
             
       @card = Card.create! 

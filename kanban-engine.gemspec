@@ -2,7 +2,7 @@ PKG_FILES = [ "lib/card.rb" ]
 
 Gem::Specification.new do |s|
   s.name = 'kanban-engine'
-  s.version = "0.1.0"
+  s.version = "0.1.1"
   s.summary = 'Library to support modeling kanban'
   s.description = <<-EOF
 Kanban is a system developed initially by Toyota for tracking work in progress 
